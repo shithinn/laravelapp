@@ -1,0 +1,16 @@
+composer create-project laravel/laravel laravel-app
+cd laravel-app
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_app
+DB_USERNAME=root
+DB_PASSWORD=
+
+php artisan migrate
+
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install && npm run dev
+php artisan migrate
