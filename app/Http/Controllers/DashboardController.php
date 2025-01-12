@@ -12,4 +12,12 @@ class DashboardController extends Controller
         $users = User::all();
         return view('dashboard', compact('users'));
     }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(['success' => 'User deleted successfully.']);
+    }
 }

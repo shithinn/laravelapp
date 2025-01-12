@@ -20,14 +20,14 @@
                         </thead>
                         <tbody>
                             @foreach($users as $user)
-                            <tr>
+                            <tr id="user_{{ $user->id }}">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <a href="" class="btn btn-primary">Show</a>
                                     <a href="" class="btn btn-primary">Edit </a>
-                                    <a class="btn btn-primary">Delete</a>
+                                    <button class="btn btn-danger delete-user" data-id="{{ $user->id }}">Delete</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -37,4 +37,25 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.delete-user').click(function() {
+                var userId = $(this).data('id');
+                var token = $('meta[name="csrf-token"]').attr('content');
+                if(confirm("Are you sure you want to delete this user?")) {
+                    $.ajax({
+                        url: '/users/' + userId,
+                        type: 'DELETE',
+                        data: {
+                            "_token": token,
+                        },
+                        success: function(response) {
+                            $('#user_' + userId).remove();
+                            alert(response.success);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </x-app-layout>
